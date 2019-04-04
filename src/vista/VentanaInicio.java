@@ -559,7 +559,11 @@ public class VentanaInicio extends JFrame implements ActionListener {
 		agregarComponentes(r, x, y, width, height, panel);
 	}
 	
-	
+	public ImageIcon iconos(String ruta) {
+		ImageIcon imag = new ImageIcon(ruta);
+		ImageIcon img = new ImageIcon(imag.getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
+		return img;
+	}
 	
 	
 }
