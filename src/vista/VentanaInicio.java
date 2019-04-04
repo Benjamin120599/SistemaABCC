@@ -537,6 +537,21 @@ public class VentanaInicio extends JFrame implements ActionListener {
 		tabla.setModel(modeloDatos);
 	}
 	
-	
+	public void actualizarTablaConsultas(JTable tabla, String consulta) {
+		
+		String controlador = "com.mysql.cj.jdbc.Driver";
+		String url = "jdbc:mysql://localhost/BD_Escuela?useTimezone=true&serverTimezone=UTC";
+		ResultSetTableModel modeloDatos = null;
+		
+		try {
+			modeloDatos=new ResultSetTableModel(controlador, url, consulta);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		tabla.setModel(modeloDatos);
+	}
 	
 }
