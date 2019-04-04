@@ -617,4 +617,14 @@ public class VentanaInicio extends JFrame implements ActionListener {
 		f4.setEnabled(false);
 		t1.setEnabled(true);
 	}
+	
+	public void restablecerCompontes(JComponent...componentes){
+		for(JComponent c : componentes){
+			if(c instanceof JTextField)
+				((JTextField) c).setText("");
+			
+			if(c instanceof JComboBox)
+				((JComboBox) c).setSelectedIndex(0);
+		}		
+	}
 }
