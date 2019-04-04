@@ -600,5 +600,15 @@ public class VentanaInicio extends JFrame implements ActionListener {
 		
 	}
 	
+	public void llenarCampos(JTextField nombre, JTextField primerAp, JTextField segundoAp, JComboBox semestre, JComboBox carrera, String numControl) {
+		AlumnoDAO adao = new AlumnoDAO();
+		Alumno a1 = adao.buscarAlumno(numControl, "NumControl");
+		nombre.setText(a1.getNombre());
+		primerAp.setText(a1.getPrimerAp());
+		segundoAp.setText(a1.getSegundoAp());
+		semestre.setSelectedItem("    "+a1.getSemestre());
+		carrera.setSelectedItem("    "+a1.getCarrera());
+	}
+	
 	
 }
