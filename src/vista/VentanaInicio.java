@@ -742,6 +742,12 @@ public class VentanaInicio extends JFrame implements ActionListener {
 			tSemestreC.setEnabled(true);
 			tCarreraC.setEnabled(true);
 		}
+		if(e.getSource().equals(buscarM)) {
+			llenarCampos(tNombreM, tApellidoPM, tApellidoMM, cBSemestreM, cBCarreraM, tnumControlM.getText());
+		}
+		if(e.getSource().equals(buscarB)) {
+			llenarCampos(tNombreB, tApellidoPB, tApellidoMB, cBSemestreB, cBCarreraB, tnumControlB.getText());
+		}
 	}
 	
 	
