@@ -576,4 +576,29 @@ public class VentanaInicio extends JFrame implements ActionListener {
 		componente.setForeground(color);
 	}
 	
+	public void crearTabla(JPanel panel, JTable table) {
+		
+		modelo = (DefaultTableModel) table.getModel();
+	
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        
+        TableColumnModel columnModel = table.getColumnModel();
+
+        for(int i=0; i<table.getColumnCount(); i++) {
+        	columnModel.getColumn(i).setPreferredWidth(50);
+        }
+	    		        
+        DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
+        tcr.setHorizontalAlignment(SwingConstants.CENTER);
+                
+        for(int i=0; i < table.getColumnCount(); i++) {
+			table.getColumnModel().getColumn(i).setCellRenderer(tcr);
+		}
+       
+        JScrollPane scroll = new JScrollPane(table);
+		panel.add(scroll, BorderLayout.CENTER);		
+		
+	}
+	
+	
 }
