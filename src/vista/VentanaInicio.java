@@ -627,4 +627,27 @@ public class VentanaInicio extends JFrame implements ActionListener {
 				((JComboBox) c).setSelectedIndex(0);
 		}		
 	}
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource().equals(altaAlumno)) {
+			actualizarTablas(tabla1);
+			altas.setVisible(true);
+		}
+		if(e.getSource().equals(bajaAlumno)) {
+			actualizarTablas(tabla2);
+			bajas.setVisible(true);
+		}
+		if(e.getSource().equals(cambioAlumno)) {
+			actualizarTablas(tabla3);
+			cambios.setVisible(true);
+		}
+		if(e.getSource().equals(consultaAlumno)) {
+			actualizarTablas(tabla4);
+			consultas.setVisible(true);
+		} 
+		
+	}
+	
+	
 }
