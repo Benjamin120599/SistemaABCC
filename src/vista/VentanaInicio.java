@@ -646,7 +646,21 @@ public class VentanaInicio extends JFrame implements ActionListener {
 			actualizarTablas(tabla4);
 			consultas.setVisible(true);
 		} 
-		
+		if(e.getSource().equals(agregar)) {
+			String semestre = cBSemestre.getSelectedItem().toString().replaceAll(" ", "");
+			String carrera = cBCarrera.getSelectedItem().toString().replaceAll(" ", "");
+			Alumno a1 = new Alumno(tnumControl.getText(), tNombre.getText(), tApellidoP.getText(), tApellidoM.getText(), (byte)15, (byte)Integer.parseInt(semestre), carrera);
+			//System.out.println(aDAO.agregarAlumno(a1));
+			if(aDAO.agregarAlumno(a1) == true) {
+				actualizarTablas(tabla1);
+				JOptionPane.showMessageDialog(rootPane, "El registro se añadió correctamente", null, JOptionPane.INFORMATION_MESSAGE);
+				restablecerCompontes(tnumControl, tNombre, tApellidoP, tApellidoM, cBSemestre, cBCarrera);
+			} else {
+				JOptionPane.showMessageDialog(rootPane, "El registro no pudo ser añadido", "Error", JOptionPane.ERROR_MESSAGE);
+				restablecerCompontes(tnumControl, tNombre, tApellidoP, tApellidoM, cBSemestre, cBCarrera);
+			}
+			
+		}
 	}
 	
 	
