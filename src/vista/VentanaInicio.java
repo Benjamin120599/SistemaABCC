@@ -569,4 +569,11 @@ public class VentanaInicio extends JFrame implements ActionListener {
 		componente.setBounds(x, y, width, height);
 		panel.add(componente);	
 	}
+	
+	public void agregarEtiqueta(JLabel componente, int x, int y, int width, int height, JPanel panel, Font letra, Color color) {
+		agregarComponentes(componente, x, y, width, height, panel);
+		componente.setFont(letra);
+		componente.setForeground(color);
+	}
+	
 }
