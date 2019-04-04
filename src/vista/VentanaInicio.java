@@ -659,7 +659,18 @@ public class VentanaInicio extends JFrame implements ActionListener {
 				JOptionPane.showMessageDialog(rootPane, "El registro no pudo ser añadido", "Error", JOptionPane.ERROR_MESSAGE);
 				restablecerCompontes(tnumControl, tNombre, tApellidoP, tApellidoM, cBSemestre, cBCarrera);
 			}
-			
+		}
+		if(e.getSource().equals(eliminar)) {
+			String numControl = tnumControlB.getText();
+			//System.out.println(aDAO.eliminarAlumnos(numControl));
+			if(aDAO.eliminarAlumnos(numControl) == true) {
+				actualizarTablas(tabla2);
+				JOptionPane.showMessageDialog(rootPane, "El registro se eliminó correctamente", null, JOptionPane.INFORMATION_MESSAGE);
+				restablecerCompontes(tnumControlB, tNombreB, tApellidoPB, tApellidoMB, cBSemestreB, cBCarreraB);
+			} else {
+				JOptionPane.showMessageDialog(rootPane, "El registro no se pudo eliminar", null, JOptionPane.ERROR_MESSAGE);
+				restablecerCompontes(tnumControlB, tNombreB, tApellidoPB, tApellidoMB, cBSemestreB, cBCarreraB);
+			}	
 		}
 	}
 	
