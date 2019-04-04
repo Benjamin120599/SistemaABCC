@@ -565,5 +565,8 @@ public class VentanaInicio extends JFrame implements ActionListener {
 		return img;
 	}
 	
-	
+	public void agregarComponentes(JComponent componente, int x, int y, int width, int height, JPanel panel) {
+		componente.setBounds(x, y, width, height);
+		panel.add(componente);	
+	}
 }
