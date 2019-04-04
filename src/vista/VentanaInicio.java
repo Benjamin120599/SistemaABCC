@@ -725,6 +725,23 @@ public class VentanaInicio extends JFrame implements ActionListener {
 		if(e.getSource().equals(borrarC) ) {
 			restablecerCompontes(tNombreC, tApellidoPC, tApellidoMC, tSemestreC, tCarreraC);
 		}
+		if(rNombre.isSelected())
+			habilitarRadioButtons(tApellidoPC, tApellidoMC, tSemestreC, tCarreraC, tNombreC);
+		if(rPrimerAp.isSelected())
+			habilitarRadioButtons(tNombreC, tApellidoMC, tSemestreC, tCarreraC, tApellidoPC);
+		if(rSegundoAp.isSelected())
+			habilitarRadioButtons(tNombreC, tApellidoPC, tSemestreC, tCarreraC, tApellidoMC);
+		if(rSemestre.isSelected())
+			habilitarRadioButtons(tNombreC, tApellidoPC, tApellidoMC, tCarreraC, tSemestreC);
+		if(rCarrera.isSelected())
+			habilitarRadioButtons(tNombreC, tApellidoPC, tApellidoMC, tSemestreC, tCarreraC);
+		if(rTodos.isSelected()) {
+			tNombreC.setEnabled(true);
+			tApellidoPC.setEnabled(true);
+			tApellidoMC.setEnabled(true);
+			tSemestreC.setEnabled(true);
+			tCarreraC.setEnabled(true);
+		}
 	}
 	
 	
