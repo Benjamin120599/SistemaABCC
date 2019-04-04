@@ -672,6 +672,20 @@ public class VentanaInicio extends JFrame implements ActionListener {
 				restablecerCompontes(tnumControlB, tNombreB, tApellidoPB, tApellidoMB, cBSemestreB, cBCarreraB);
 			}	
 		}
+		if(e.getSource().equals(modificar)) {
+			String semestre = cBSemestreM.getSelectedItem().toString().replaceAll(" ", "");
+			String carrera = cBCarreraM.getSelectedItem().toString().replaceAll(" ", "");
+			Alumno a1 = new Alumno(tnumControlM.getText(), tNombreM.getText(), tApellidoPM.getText(), tApellidoMM.getText(), (byte)15, (byte)Integer.parseInt(semestre), carrera);
+			//System.out.println(aDAO.modificarAlumno(a1));
+			if(aDAO.modificarAlumno(a1) == true) {
+				actualizarTablas(tabla3);
+				JOptionPane.showMessageDialog(rootPane, "El registro se modificó correctamente", null, JOptionPane.INFORMATION_MESSAGE);
+				restablecerCompontes(tnumControlM, tNombreM, tApellidoPM, tApellidoMM, cBSemestreM, cBCarreraM);
+			} else {
+				JOptionPane.showMessageDialog(rootPane, "El registro no se pudo modificar", null, JOptionPane.ERROR_MESSAGE);
+				restablecerCompontes(tnumControlM, tNombreM, tApellidoPM, tApellidoMM, cBSemestreM, cBCarreraM);
+			}
+		}
 	}
 	
 	
