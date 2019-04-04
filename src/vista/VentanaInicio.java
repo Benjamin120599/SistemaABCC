@@ -610,5 +610,11 @@ public class VentanaInicio extends JFrame implements ActionListener {
 		carrera.setSelectedItem("    "+a1.getCarrera());
 	}
 	
-	
+	public void habilitarRadioButtons(JTextField f1, JTextField f2, JTextField f3, JTextField f4, JTextField t1) {
+		f1.setEnabled(false);
+		f2.setEnabled(false);
+		f3.setEnabled(false);
+		f4.setEnabled(false);
+		t1.setEnabled(true);
+	}
 }
