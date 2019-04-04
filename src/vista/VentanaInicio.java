@@ -713,6 +713,18 @@ public class VentanaInicio extends JFrame implements ActionListener {
 				actualizarTablas(tabla4);
 			}
 		}
+		if(e.getSource().equals(borrar) ) {
+			restablecerCompontes(tnumControl, tNombre, tApellidoP, tApellidoM, cBSemestre, cBCarrera);
+		}
+		if(e.getSource().equals(borrarB) ) {
+			restablecerCompontes(tnumControlB, tNombreB, tApellidoPB, tApellidoMB, cBSemestreB, cBCarreraB);
+		}	
+		if(e.getSource().equals(borrarM) ) {
+			restablecerCompontes(tnumControlM, tNombreM, tApellidoPM, tApellidoMM, cBSemestreM, cBCarreraM);
+		}
+		if(e.getSource().equals(borrarC) ) {
+			restablecerCompontes(tNombreC, tApellidoPC, tApellidoMC, tSemestreC, tCarreraC);
+		}
 	}
 	
 	
