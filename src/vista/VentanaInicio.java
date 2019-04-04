@@ -554,4 +554,12 @@ public class VentanaInicio extends JFrame implements ActionListener {
 		tabla.setModel(modeloDatos);
 	}
 	
+	public void agregarRadioButton(JRadioButton r, int x, int y, int width, int height, JPanel panel, Font letra ) {
+		r.setFont(letra);
+		agregarComponentes(r, x, y, width, height, panel);
+	}
+	
+	
+	
+	
 }
