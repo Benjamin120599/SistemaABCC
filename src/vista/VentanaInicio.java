@@ -686,6 +686,33 @@ public class VentanaInicio extends JFrame implements ActionListener {
 				restablecerCompontes(tnumControlM, tNombreM, tApellidoPM, tApellidoMM, cBSemestreM, cBCarreraM);
 			}
 		}
+		if(e.getSource().equals(consultar)) {
+			
+			if(rNombre.isSelected()) {
+				aDAO.buscarAlumno(tNombreC.getText(), "Nombre");
+				actualizarTablaConsultas(tabla4, "SELECT * FROM Alumnos WHERE Nombre = '"+tNombreC.getText()+"';");
+				restablecerCompontes(tNombreC, tApellidoPC, tApellidoMC, tSemestreC, tCarreraC);
+			} else if(rPrimerAp.isSelected()) {
+				aDAO.buscarAlumno(tApellidoPC.getText(), "PrimerAp");
+				actualizarTablaConsultas(tabla4, "SELECT * FROM Alumnos WHERE PrimerAp = '"+tApellidoPC.getText()+"';");
+				restablecerCompontes(tNombreC, tApellidoPC, tApellidoMC, tSemestreC, tCarreraC);
+			} else if(rSegundoAp.isSelected()) {
+				aDAO.buscarAlumno(tApellidoMC.getText(), "SegundoAp");
+				actualizarTablaConsultas(tabla4, "SELECT * FROM Alumnos WHERE SegundoAp = '"+tApellidoMC.getText()+"';");
+				restablecerCompontes(tNombreC, tApellidoPC, tApellidoMC, tSemestreC, tCarreraC);
+			} else if(rSemestre.isSelected()) {
+				aDAO.buscarAlumno(tSemestreC.getText(), "Semestre");
+				actualizarTablaConsultas(tabla4, "SELECT * FROM Alumnos WHERE Semestre = '"+tSemestreC.getText()+"';");
+				restablecerCompontes(tNombreC, tApellidoPC, tApellidoMC, tSemestreC, tCarreraC);
+			} else if(rCarrera.isSelected()) {
+				aDAO.buscarAlumno(tCarreraC.getText(), "Carrera");
+				actualizarTablaConsultas(tabla4, "SELECT * FROM Alumnos WHERE Carrera = '"+tCarreraC.getText()+"';");
+				restablecerCompontes(tNombreC, tApellidoPC, tApellidoMC, tSemestreC, tCarreraC);
+			} else if(rTodos.isSelected()) {
+				//aDAO.buscarAlumno(tCarreraC.getText(), "Carrera");
+				actualizarTablas(tabla4);
+			}
+		}
 	}
 	
 	
