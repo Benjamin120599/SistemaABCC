@@ -22,7 +22,6 @@ public class AlumnoDAO {
 		
 		ConexionBD conexion = new ConexionBD();
 		return conexion.ejecutarInstruccion(sql3);
-	
 	}
 	
 	public boolean eliminarAlumnos(String numControl) {
@@ -57,9 +56,9 @@ public class AlumnoDAO {
 			alumno.setSemestre(rs.getByte(6));
 			alumno.setCarrera(rs.getString(7));
 		} catch (SQLException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			return null;
 		}
-		
 		return alumno;
 	}
 	
@@ -96,7 +95,7 @@ public class AlumnoDAO {
 			e.printStackTrace();
 		}
 		
-		return listaAlumnos;
+		return listaAlumnos; 
 	}
 	
 }

@@ -22,14 +22,14 @@ public class ConexionBD {
 			String url = "jdbc:mysql://localhost/BD_Escuela?serverTimezone=UTC";
 			conexion = DriverManager.getConnection(url, "root", "password");
 						
-			System.out.println("Magia magia con BD, ya casi soy ISC");
+			//System.out.println("Magia magia con BD, ya casi soy ISC");
 			
 		} catch (ClassNotFoundException e) {
 			System.out.println("No se encontró el controlador.");
-			System.out.println("Mejor me dedico a las redes ='(.");
+			//System.out.println("Mejor me dedico a las redes ='(.");
 		} catch (SQLException e) {
 			System.out.println("No se pudo conectar al servidor.");
-			System.out.println("Mejor me dedico a las redes ='(.");
+			//System.out.println("Mejor me dedico a las redes ='(.");
 			e.printStackTrace();
 		} finally {
 			// Codigo que siempre se ejecuta

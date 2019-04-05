@@ -15,6 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
@@ -23,6 +24,9 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
+
+import com.mysql.cj.jdbc.MysqlDataSourceFactory;
+import com.mysql.cj.protocol.a.authentication.MysqlOldPasswordPlugin;
 
 import modelo.Alumno;
 import controlador.AlumnoDAO;
@@ -627,37 +631,64 @@ public class VentanaInicio extends JFrame implements ActionListener {
 				((JComboBox) c).setSelectedIndex(0);
 		}		
 	}
-	
+		
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource().equals(altaAlumno)) {
 			actualizarTablas(tabla1);
 			altas.setVisible(true);
+			bajas.setVisible(false);
+			cambios.setVisible(false);
+			consultas.setVisible(false);
 		}
 		if(e.getSource().equals(bajaAlumno)) {
 			actualizarTablas(tabla2);
+			altas.setVisible(false);
 			bajas.setVisible(true);
+			cambios.setVisible(false);
+			consultas.setVisible(false);
 		}
 		if(e.getSource().equals(cambioAlumno)) {
 			actualizarTablas(tabla3);
+			altas.setVisible(false);
+			bajas.setVisible(false);
 			cambios.setVisible(true);
+			consultas.setVisible(false);
 		}
 		if(e.getSource().equals(consultaAlumno)) {
 			actualizarTablas(tabla4);
+			altas.setVisible(false);
+			bajas.setVisible(false);
+			cambios.setVisible(false);
 			consultas.setVisible(true);
 		} 
 		if(e.getSource().equals(agregar)) {
 			String semestre = cBSemestre.getSelectedItem().toString().replaceAll(" ", "");
 			String carrera = cBCarrera.getSelectedItem().toString().replaceAll(" ", "");
-			Alumno a1 = new Alumno(tnumControl.getText(), tNombre.getText(), tApellidoP.getText(), tApellidoM.getText(), (byte)15, (byte)Integer.parseInt(semestre), carrera);
+			Alumno a1 = new Alumno(tnumControl.getText(), tNombre.getText(), tApellidoP.getText(), tApellidoM.getText(), (byte)19, (byte)Integer.parseInt(semestre), carrera);
 			//System.out.println(aDAO.agregarAlumno(a1));
-			if(aDAO.agregarAlumno(a1) == true) {
-				actualizarTablas(tabla1);
-				JOptionPane.showMessageDialog(rootPane, "El registro se añadió correctamente", null, JOptionPane.INFORMATION_MESSAGE);
-				restablecerCompontes(tnumControl, tNombre, tApellidoP, tApellidoM, cBSemestre, cBCarrera);
+			if( aDAO.buscarAlumno(tnumControl.getText(), "NumControl") == null ) {
+				if(aDAO.agregarAlumno(a1) == true) {
+					actualizarTablas(tabla1);
+					JOptionPane.showMessageDialog(rootPane, "El registro se añadió correctamente", null, JOptionPane.INFORMATION_MESSAGE);
+					restablecerCompontes(tnumControl, tNombre, tApellidoP, tApellidoM, cBSemestre, cBCarrera);
+				} else {
+					JOptionPane.showMessageDialog(rootPane, "El registro no pudo ser añadido", "Error", JOptionPane.ERROR_MESSAGE);
+					restablecerCompontes(tnumControl, tNombre, tApellidoP, tApellidoM, cBSemestre, cBCarrera);
+				}
 			} else {
-				JOptionPane.showMessageDialog(rootPane, "El registro no pudo ser añadido", "Error", JOptionPane.ERROR_MESSAGE);
-				restablecerCompontes(tnumControl, tNombre, tApellidoP, tApellidoM, cBSemestre, cBCarrera);
+				if(a1.getNumControl().equals( aDAO.buscarAlumno(tnumControl.getText(), "NumControl").getNumControl())) {
+					JOptionPane.showMessageDialog(rootPane, "El número de control ya existe", null, JOptionPane.ERROR_MESSAGE);
+				} else {
+					if(aDAO.agregarAlumno(a1) == true) {
+						actualizarTablas(tabla1);
+						JOptionPane.showMessageDialog(rootPane, "El registro se añadió correctamente", null, JOptionPane.INFORMATION_MESSAGE);
+						restablecerCompontes(tnumControl, tNombre, tApellidoP, tApellidoM, cBSemestre, cBCarrera);
+					} else {
+						JOptionPane.showMessageDialog(rootPane, "El registro no pudo ser añadido", "Error", JOptionPane.ERROR_MESSAGE);
+						restablecerCompontes(tnumControl, tNombre, tApellidoP, tApellidoM, cBSemestre, cBCarrera);
+					}
+				}
 			}
 		}
 		if(e.getSource().equals(eliminar)) {
@@ -687,27 +718,46 @@ public class VentanaInicio extends JFrame implements ActionListener {
 			}
 		}
 		if(e.getSource().equals(consultar)) {
-			
 			if(rNombre.isSelected()) {
-				aDAO.buscarAlumno(tNombreC.getText(), "Nombre");
-				actualizarTablaConsultas(tabla4, "SELECT * FROM Alumnos WHERE Nombre = '"+tNombreC.getText()+"';");
-				restablecerCompontes(tNombreC, tApellidoPC, tApellidoMC, tSemestreC, tCarreraC);
+				if(aDAO.buscarAlumno(tNombreC.getText(), "Nombre") == null) {
+					JOptionPane.showMessageDialog(rootPane, "El nombre no existe", null, JOptionPane.ERROR_MESSAGE);
+				} else {
+					aDAO.buscarAlumno(tNombreC.getText(), "Nombre");
+					actualizarTablaConsultas(tabla4, "SELECT * FROM Alumnos WHERE Nombre = '"+tNombreC.getText()+"';");
+					restablecerCompontes(tNombreC, tApellidoPC, tApellidoMC, tSemestreC, tCarreraC);
+				}
 			} else if(rPrimerAp.isSelected()) {
-				aDAO.buscarAlumno(tApellidoPC.getText(), "PrimerAp");
-				actualizarTablaConsultas(tabla4, "SELECT * FROM Alumnos WHERE PrimerAp = '"+tApellidoPC.getText()+"';");
-				restablecerCompontes(tNombreC, tApellidoPC, tApellidoMC, tSemestreC, tCarreraC);
+				if(aDAO.buscarAlumno(tApellidoPC.getText(), "PrimerAp") == null) {
+					JOptionPane.showMessageDialog(rootPane, "El apellido no existe", null, JOptionPane.ERROR_MESSAGE);
+				} else {
+					aDAO.buscarAlumno(tApellidoPC.getText(), "PrimerAp");
+					actualizarTablaConsultas(tabla4, "SELECT * FROM Alumnos WHERE PrimerAp = '"+tApellidoPC.getText()+"';");
+					restablecerCompontes(tNombreC, tApellidoPC, tApellidoMC, tSemestreC, tCarreraC);
+				}
 			} else if(rSegundoAp.isSelected()) {
-				aDAO.buscarAlumno(tApellidoMC.getText(), "SegundoAp");
-				actualizarTablaConsultas(tabla4, "SELECT * FROM Alumnos WHERE SegundoAp = '"+tApellidoMC.getText()+"';");
-				restablecerCompontes(tNombreC, tApellidoPC, tApellidoMC, tSemestreC, tCarreraC);
+				if(aDAO.buscarAlumno(tApellidoMC.getText(), "SegundoAp") == null) {
+					JOptionPane.showMessageDialog(rootPane, "El apellido no existe", null, JOptionPane.ERROR_MESSAGE);
+				} else {
+					aDAO.buscarAlumno(tApellidoMC.getText(), "SegundoAp");
+					actualizarTablaConsultas(tabla4, "SELECT * FROM Alumnos WHERE SegundoAp = '"+tApellidoMC.getText()+"';");
+					restablecerCompontes(tNombreC, tApellidoPC, tApellidoMC, tSemestreC, tCarreraC);
+				}
 			} else if(rSemestre.isSelected()) {
-				aDAO.buscarAlumno(tSemestreC.getText(), "Semestre");
-				actualizarTablaConsultas(tabla4, "SELECT * FROM Alumnos WHERE Semestre = '"+tSemestreC.getText()+"';");
-				restablecerCompontes(tNombreC, tApellidoPC, tApellidoMC, tSemestreC, tCarreraC);
+				if(aDAO.buscarAlumno(tSemestreC.getText(), "Semestre") == null) {
+					JOptionPane.showMessageDialog(rootPane, "El semestre no existe", null, JOptionPane.ERROR_MESSAGE);
+				} else {
+					aDAO.buscarAlumno(tSemestreC.getText(), "Semestre");
+					actualizarTablaConsultas(tabla4, "SELECT * FROM Alumnos WHERE Semestre = '"+tSemestreC.getText()+"';");
+					restablecerCompontes(tNombreC, tApellidoPC, tApellidoMC, tSemestreC, tCarreraC);
+				}
 			} else if(rCarrera.isSelected()) {
-				aDAO.buscarAlumno(tCarreraC.getText(), "Carrera");
-				actualizarTablaConsultas(tabla4, "SELECT * FROM Alumnos WHERE Carrera = '"+tCarreraC.getText()+"';");
-				restablecerCompontes(tNombreC, tApellidoPC, tApellidoMC, tSemestreC, tCarreraC);
+				if(aDAO.buscarAlumno(tCarreraC.getText(), "Carrera") == null) {
+					JOptionPane.showMessageDialog(rootPane, "La carrera no existe", null, JOptionPane.ERROR_MESSAGE);
+				} else {
+					aDAO.buscarAlumno(tCarreraC.getText(), "Carrera");
+					actualizarTablaConsultas(tabla4, "SELECT * FROM Alumnos WHERE Carrera = '"+tCarreraC.getText()+"';");
+					restablecerCompontes(tNombreC, tApellidoPC, tApellidoMC, tSemestreC, tCarreraC);
+				}
 			} else if(rTodos.isSelected()) {
 				//aDAO.buscarAlumno(tCarreraC.getText(), "Carrera");
 				actualizarTablas(tabla4);
@@ -743,13 +793,21 @@ public class VentanaInicio extends JFrame implements ActionListener {
 			tCarreraC.setEnabled(true);
 		}
 		if(e.getSource().equals(buscarM)) {
-			llenarCampos(tNombreM, tApellidoPM, tApellidoMM, cBSemestreM, cBCarreraM, tnumControlM.getText());
+			if(aDAO.buscarAlumno(tnumControlM.getText(), "NumControl") == null) {
+				JOptionPane.showMessageDialog(rootPane, "Ese número de control no existe", null, JOptionPane.ERROR_MESSAGE);
+			} else {
+				llenarCampos(tNombreM, tApellidoPM, tApellidoMM, cBSemestreM, cBCarreraM, tnumControlM.getText());
+			}
 		}
 		if(e.getSource().equals(buscarB)) {
-			llenarCampos(tNombreB, tApellidoPB, tApellidoMB, cBSemestreB, cBCarreraB, tnumControlB.getText());
+			if(aDAO.buscarAlumno(tnumControlB.getText(), "NumControl") == null) {
+				JOptionPane.showMessageDialog(rootPane, "Ese número de control no existe", null, JOptionPane.ERROR_MESSAGE);
+			} else {
+				llenarCampos(tNombreB, tApellidoPB, tApellidoMB, cBSemestreB, cBCarreraB, tnumControlB.getText());
+			}
 		}
 	}
-	
+		
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
 			
@@ -759,5 +817,4 @@ public class VentanaInicio extends JFrame implements ActionListener {
 			}
 		});
 	}
-
 }
